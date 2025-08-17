@@ -110,52 +110,43 @@ function getColor(num) {
 
 // 스와이프 이벤트 관련 변수
 const gameBoard = document.querySelector('.grid-container');
-let swipeStartX, swipeStartY;
-let swipeEndX, swipeEndY;
+let startX = 0;
+let startY = 0
+let isSwiping = false;
 
-// 스와이프 이벤트 입력
-document.addEventListener('touchstart', (e) => {
-  swipeStartX = e.touches[0].clientX;
-  swipeStartY = e.touches[0].clientY;
-});
+gameBoard.addEventListener('touchstart', (e) => {
+  if (e.touches.length !== 1) return;
+  isSwiping = true;
+  startX = e.touches[0].clientX;
+  startY = e.touches[0].clientY;
+}, { passive: false });
 
-document.addEventListener('touchmove', (e) => {
-  swipeEndX = e.touches[0].clientX;
-  swipeEndY = e.touches[0].clientY;
-});
+gameBoard.addEventListener('touchmove', (e) => {
+  if (!isSwiping) return;
+  // 스와이프 중 브라우저 스크롤 방지 (passive:false 필수)
+  e.preventDefault();
+}, { passive: false });
 
-document.addEventListener('touchend', (e) => {
-  if (inGameBoard(swipeStartX, swipeStartY) && inGameBoard(swipeEndX, swipeEndY)) {
-    const swipeDistanceX = swipeEndX - swipeStartX;
-    const swipeDistanceY = swipeEndY - swipeStartY;
+gameBoard.addEventListener('touchend', (e) => {
+  if (!isSwiping) return;
+  isSwiping = false;
 
-    if (Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY)) {
-      // 좌우 스와이프
-      if (swipeDistanceX > 0) {
-        // 오른쪽으로 스와이프
-        move("ArrowRight");
-      } else {
-        // 왼쪽으로 스와이프
-        move("ArrowLeft");
-      }
-    } else {
-      // 상하 스와이프
-      if (swipeDistanceY > 0) {
-        // 아래쪽으로 스와이프
-        move("ArrowDown");
-      } else {
-        // 위쪽으로 스와이프
-        move("ArrowUp");
-      }
-    }
+  const endX = e.changedTouches[0].clientX;
+  const endY = e.changedTouches[0].clientY;
+  const dx = endX - startX;
+  const dy = endY - startY;
+  const absX = Math.abs(dx);
+  const absY = Math.abs(dy);
+  const THRESHOLD = 10; // 최소 스와이프 거리
+
+  if (Math.max(absX, absY) < THRESHOLD) return;
+
+  if (absX > absY) {
+    move(dx > 0 ? 'ArrowRight' : 'ArrowLeft');
+  } else {
+    move(dy > 0 ? 'ArrowDown' : 'ArrowUp');
   }
-});
-
-// 스와이프 좌표가 게임판 내에 있는지 확인하는 함수
-function inGameBoard(x, y) {
-  const gameBoardRect = gameBoard.getBoundingClientRect();
-  return gameBoardRect.left <= x && x <=gameBoardRect.right && gameBoardRect.top <= y && y <= gameBoardRect.bottom;
-}
+}, { passive: false });
 
 // 키보드 입력
 document.addEventListener('keydown', (e) => {
