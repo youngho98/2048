@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048 게임</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-message"></p>
+      <button class="btn-confirm" id="btn-confirm">확인</button>
+    </div>
+  </div>
+  <div class="game-container">
+    <h1>2048 GAME</h1>
+    <h3 class="score-board">
+      <div id="score"></div>
+      <div>score : &nbsp;</div>
+    </h3>
+    <div class="grid-container">
+      <div class="grid-row">
+        <div class="grid-cell" id="cell-0-0"></div>
+        <div class="grid-cell" id="cell-0-1"></div>
+        <div class="grid-cell" id="cell-0-2"></div>
+        <div class="grid-cell" id="cell-0-3"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell" id="cell-1-0"></div>
+        <div class="grid-cell" id="cell-1-1"></div>
+        <div class="grid-cell" id="cell-1-2"></div>
+        <div class="grid-cell" id="cell-1-3"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell" id="cell-2-0"></div>
+        <div class="grid-cell" id="cell-2-1"></div>
+        <div class="grid-cell" id="cell-2-2"></div>
+        <div class="grid-cell" id="cell-2-3"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell" id="cell-3-0"></div>
+        <div class="grid-cell" id="cell-3-1"></div>
+        <div class="grid-cell" id="cell-3-2"></div>
+        <div class="grid-cell" id="cell-3-3"></div>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
